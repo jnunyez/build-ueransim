@@ -1,0 +1,12 @@
+sudo dnf -y update
+
+sudo dnf -y install \
+git \
+buildah \
+podman \ 
+g++ \
+lksctp-tools \
+lksctp-tools-devel \ 
+wget \
+openssl-devel \ 
+libssl-devel

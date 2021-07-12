@@ -1,0 +1,57 @@
+#!/bin/bash
+set -e
+
+HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
+. "$HERE/_env"
+
+cd $HERE/work && \
+wget https://cmake.org/files/v${CMAKE_VERSION}/cmake-${CMAKE_VERSION}.${CMAKE_BUILD}.tar.gz && \
+tar -xvzf cmake-${CMAKE_VERSION}.${CMAKE_BUILD}.tar.gz && \
+cd cmake-${CMAKE_VERSION}.${CMAKE_BUILD} && \
+./bootstrap && \
+make -j`nproc` && \
+sudo make install && \
+sudo ldconfig && \
+cmake --version
+
+
+
+
+
+function r () {
+        buildah run "$CONTAINER_ID" -- "$@"
+}
+
+if [ ! -d source ]; then
+    echo 'cloning repository...'
+    git clone https://github.com/aligungr/UERANSIM "$HERE/work/UERANSIM" \
+        --branch "v$UERANSIM_VERSION" \
+        --recursive \
+        --depth 1
+fi
+
+RANDIR=$HERE/work/source
+cd $RANDIR && \
+make -j`nproc`
+
+
+CONTAINER_ID=$(buildah from "$BASE_IMAGE")
+
+buildah run "$CONTAINER_ID" -- dnf -y install npm
+buildah add "$CONTAINER_ID" /${RANDIR}/build /UERANSIM/build
+buildah add "$CONTAINER_ID" /${RANDIR}/config /UERANSIM/config
+
+
+
+buildah add "$CONTAINER_ID" "$HERE/assets/scripts/entrypoint" /bin/ueransim
+
+
+buildah config \
+        --entrypoint /bin/ueransim \
+        --workingdir /UERANSIM/build \
+        "$CONTAINER_ID"
+
+
+buildah commit "$CONTAINER_ID" localhost/ueransim
+
+podman save localhost/webui:latest -o /vagrant/webui.tar
