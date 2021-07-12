@@ -30,7 +30,7 @@ if [ ! -d source ]; then
         --depth 1
 fi
 
-RANDIR=$HERE/work/source
+RANDIR=$HERE/work/UERANSIM
 cd $RANDIR && \
 make -j`nproc`
 
@@ -54,4 +54,4 @@ buildah config \
 
 buildah commit "$CONTAINER_ID" localhost/ueransim
 
-podman save localhost/webui:latest -o /vagrant/webui.tar
+podman save localhost/ueransim:latest -o /vagrant/ueransim.tar
