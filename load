@@ -1,0 +1,8 @@
+#!/bin/bash
+set -e
+
+HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
+
+docker image load --input $HERE/ueransim.tar
+docker image tag localhost/ueransim:latest localhost:5000/ueransim:3.2.2
+docker push localhost:5000/ueransim:3.2.2

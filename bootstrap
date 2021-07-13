@@ -3,10 +3,9 @@ sudo dnf -y update
 sudo dnf -y install \
 git \
 buildah \
-podman \ 
+podman \
 g++ \
 lksctp-tools \
-lksctp-tools-devel \ 
+lksctp-tools-devel \
 wget \
-openssl-devel \ 
-libssl-devel
+openssl-devel

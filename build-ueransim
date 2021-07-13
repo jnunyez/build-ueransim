@@ -14,37 +14,29 @@ sudo make install && \
 sudo ldconfig && \
 cmake --version
 
-
-
-
-
 function r () {
         buildah run "$CONTAINER_ID" -- "$@"
 }
 
-if [ ! -d source ]; then
-    echo 'cloning repository...'
+if [ ! -d UERANSIM ]; then
+    echo 'cloning UERANSIM repository...'
     git clone https://github.com/aligungr/UERANSIM "$HERE/work/UERANSIM" \
         --branch "v$UERANSIM_VERSION" \
         --recursive \
         --depth 1
 fi
 
-RANDIR=$HERE/work/UERANSIM
+RANDIR=$HERE/work/UERANSIM && \
 cd $RANDIR && \
+echo 'building UERANSIM repository...' && \
 make -j`nproc`
 
 
 CONTAINER_ID=$(buildah from "$BASE_IMAGE")
 
-buildah run "$CONTAINER_ID" -- dnf -y install npm
 buildah add "$CONTAINER_ID" /${RANDIR}/build /UERANSIM/build
 buildah add "$CONTAINER_ID" /${RANDIR}/config /UERANSIM/config
-
-
-
 buildah add "$CONTAINER_ID" "$HERE/assets/scripts/entrypoint" /bin/ueransim
-
 
 buildah config \
         --entrypoint /bin/ueransim \
