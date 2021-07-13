@@ -3,4 +3,4 @@
 set -e
 
 /UERANSIM/build/nr-${COMPONENT} \
-        -c /UERANSIM/cfg/${COMPONENT}.yaml
+        -c /UERANSIM/config/${COMPONENT}.yaml

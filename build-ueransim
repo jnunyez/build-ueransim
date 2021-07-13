@@ -38,6 +38,12 @@ buildah add "$CONTAINER_ID" /${RANDIR}/build /UERANSIM/build
 buildah add "$CONTAINER_ID" /${RANDIR}/config /UERANSIM/config
 buildah add "$CONTAINER_ID" "$HERE/assets/scripts/entrypoint" /bin/ueransim
 
+r dnf install -y \
+    iputils \
+    lksctp-tools
+r dnf -y clean all
+
+
 buildah config \
         --entrypoint /bin/ueransim \
         --workingdir /UERANSIM/build \
