@@ -4,7 +4,7 @@ set -e
 HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
 . "$HERE/_env"
 
-cd $HERE/work && \
+mkdir -p $HERE/work && cd $HERE/work && \
 wget https://cmake.org/files/v${CMAKE_VERSION}/cmake-${CMAKE_VERSION}.${CMAKE_BUILD}.tar.gz && \
 tar -xvzf cmake-${CMAKE_VERSION}.${CMAKE_BUILD}.tar.gz && \
 cd cmake-${CMAKE_VERSION}.${CMAKE_BUILD} && \
@@ -40,7 +40,9 @@ buildah add "$CONTAINER_ID" "$HERE/assets/scripts/entrypoint" /bin/ueransim
 
 r dnf install -y \
     iputils \
-    lksctp-tools
+    lksctp-tools \
+    iproute \
+    tcpdump
 r dnf -y clean all
 
 
