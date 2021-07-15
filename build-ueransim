@@ -42,7 +42,8 @@ r dnf install -y \
     iputils \
     lksctp-tools \
     iproute \
-    tcpdump
+    tcpdump \
+    gettext
 r dnf -y clean all
 
 

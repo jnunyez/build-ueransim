@@ -1,6 +1,9 @@
 #!/bin/bash
 
 set -e
+GNB_IP=$(ip addr show eth0 | grep inet.*brd.*eth0 | awk '{print $2}'| awk -F '/' '{print $1}') \
+envsubst '$GNB_IP' < /UERANSIM/config/${COMPONENT}.yaml > /UERANSIM/config/${COMPONENT}-prod.yaml
+
 
 /UERANSIM/build/nr-${COMPONENT} \
-        -c /UERANSIM/config/${COMPONENT}.yaml
+        -c /UERANSIM/config/${COMPONENT}-prod.yaml
