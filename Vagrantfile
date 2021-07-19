@@ -1,5 +1,5 @@
 Vagrant.configure("2") do |config|
-    config.vm.define "open5gs-build"
+    config.vm.define "ueransim-build"
     config.vm.box = "fedora/34-cloud-base"
     config.vm.provider :libvirt do |libvirt|
       libvirt.cpus = 4
