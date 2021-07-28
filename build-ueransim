@@ -55,4 +55,4 @@ buildah config \
 
 buildah commit "$CONTAINER_ID" localhost/ueransim
 
-podman save localhost/ueransim:latest -o /vagrant/ueransim.tar
+$HERE/load-ueransim
