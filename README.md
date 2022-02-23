@@ -9,12 +9,18 @@ The image is built inside vagrant Fedora VM using buildah. Once the image is bui
 ## Quickstart
 
 
-1. Deploy and log in vagrant VM:
+1a) non-RHEL users: Deploy and log in vagrant VM:
 
    ```
    vagrant up
    vagrant ssh
    cd /vagrant
+   ```
+
+1b) RHEL users can avoid the Vagrant VM creation 
+   
+   ```
+   dnf -y install lksctp-tools-devel
    ```
 
 2. Build the ueransim image:

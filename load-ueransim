@@ -2,9 +2,7 @@
 set -e
 
 HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
+. "$HERE/_env"
 
-#docker image load --input $HERE/ueransim.tar
-#docker image tag localhost/ueransim:latest localhost:5000/ueransim:3.2.2
-#docker push localhost:5000/ueransim:3.2.2
-podman login
-podman push localhost/ueransim:latest quay.io/jnunez/ueransim:3.2.2
+podman login quay.io
+podman push localhost/ueransim:latest quay.io/jnunez/ueransim:$UERANSIM_VERSION
